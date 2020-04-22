@@ -76,3 +76,19 @@ def fn_help():
 
     for x, y in command_list.items():
         print("{} : {}".format(x.rjust(12), y.ljust(5)))
+
+
+def fn_head_tail(user_cmd):
+    """
+    Display the rows of the dataframe; head - top rows; tail - bottom rows
+    :param user_cmd: head or tail
+    :return: head | tail, no of rows to display
+    """
+    if user_cmd == "head" or user_cmd == "tail":
+        rows = input("Enter the number of rows to display: ")
+        try:
+            rows = int(rows)
+            return user_cmd, rows
+        except:
+            print("Enter a valid 'number' of rows.")
+            return None
