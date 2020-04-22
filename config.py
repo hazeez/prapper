@@ -20,5 +20,7 @@ command_list = [
     'columns',
     'cols',
     'cls',
-    'clear'
+    'clear',
+    'hide_col',
+    'sort_values',
 ]

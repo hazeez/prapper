@@ -11,6 +11,8 @@ import config as cfg
 
 # variable declarations
 filename_object = ""
+data = {'a':1, 'b':2}
+df = pd.DataFrame(data, index=[0,1])
 
 # print the splash screen at the start of the program
 # This is the entry point of the program
@@ -19,6 +21,7 @@ gfun.fn_splash_screen()
 while True:
 
     # global variables
+
 
     # local variables
 
@@ -102,12 +105,25 @@ while True:
             # clear the screen
             gfun.clear_screen()
 
+        if user_cmd == "hide_col":
+            # hide the columns and display the dataframe
+            try:
+                display_column_list = bf.fn_hide_columns(df)
+                df = df[display_column_list]
+                print(df.head())
+            except KeyError as ke:
+                print("Try again " + str(ke))
+
+        if user_cmd == "sort_values":
+            df = bf.fn_sort_values(df)
+            if not None:
+                print(df.head())
+
     except KeyboardInterrupt:
         print("\n")
         print("Exiting Prapper.")
         exit()
 
-# TODO: select columns - hide <column_name>
 # TODO: Sorting the df based on columns
 # TODO: filtering the df based on columns
 # TODO: Accessing based on iloc and loc

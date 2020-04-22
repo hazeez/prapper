@@ -3,8 +3,12 @@ The following functions are covered in this file
 - read_csv: read csv files
 - rename_col: rename column
 """
-
+# import third party modules
 import pandas as pd
+
+# variable declarations
+hidden_columns_list = []
+df_columns_list = []
 
 
 def fn_read_csv(filename, pd):
@@ -14,8 +18,11 @@ def fn_read_csv(filename, pd):
     :param pd: pandas object
     :return: dataframe
     """
+    global df_columns_list
+
     try:
         df = pd.read_csv(filename)
+        df_columns_list = list(df.columns)
         return df
     except FileNotFoundError:
         print("File '{}' is not present in the directory.".format(filename))
@@ -76,9 +83,10 @@ def fn_help():
             'tail': 'displays the last 5 rows of the dataframe',
         },
         'Data Manipulation Commands': {
+            'hide_col': 'hide a selected column in the dataframe',
             'rename_col': 'renames a pandas dataframe column',
         },
-        'Miscellaneous Commands' : {
+        'Miscellaneous Commands': {
             'exit': 'exits the program',
             'help': 'displays help message',
         },
@@ -87,7 +95,7 @@ def fn_help():
     for category in command_list:
         print("* " + category)
         print("-" * (len(category) + 2))
-        for x,y in command_list[category].items():
+        for x, y in command_list[category].items():
             print(" * {} : {}".format(x.rjust(12), y.ljust(5)))
         print("\n")
 
@@ -106,3 +114,53 @@ def fn_head_tail(user_cmd):
         except:
             print("Enter a valid 'number' of rows.")
             return None
+
+
+def fn_hide_columns(df):
+    """
+    Hides an user inputted column
+    :param df: dataframe
+    :return: new column list without columns hidden
+    """
+
+    global hidden_columns_list
+
+    if len(hidden_columns_list) > 0:
+        print(hidden_columns_list)
+
+    df_columns_list = list(df.columns)
+    columns_to_hide = input("Enter the column to hide: ")
+
+    if type(columns_to_hide) == str:
+        columns_to_hide = columns_to_hide.strip()
+        if columns_to_hide in df.columns:
+            if columns_to_hide not in hidden_columns_list:
+                hidden_columns_list.append(columns_to_hide)
+            for col_name in hidden_columns_list:
+                try:
+                    df_columns_list.remove(col_name)
+                except ValueError:
+                    pass
+            print("Column hidden")
+            print("Visible columns: ", df_columns_list)
+            print("\n")
+            return df_columns_list
+        else:
+            print("columns '{}' does not exist.".format(columns_to_hide))
+            print(df.columns)
+
+def fn_sort_values(df):
+    """
+    Sort values in ascending order
+    :param df:
+    :return:
+    """
+    sort_column = input("Enter the column to sort: ")
+    sort_column = sort_column.strip()
+    
+    if sort_column in df_columns_list:
+        df = df.sort_values(sort_column)
+        return df
+    else:
+        print('Not a valid column')
+        return None
