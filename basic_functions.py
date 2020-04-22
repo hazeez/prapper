@@ -62,20 +62,34 @@ def fn_help():
     :return: None
     """
     print("List of commands available...")
+    print('-' * len("List of commands available..."))
+    print("\n")
     command_list = {
-        'columns': 'display the list of columns in the dataframe',
-        'dir': 'list the directory contents',
-        'exit': 'exits the program',
-        'help': 'displays help message',
-        'head': 'displays the first 5 rows of the dataframe',
-        'info': 'displays current dataframe information',
-        'read_csv': 'reads a csv file',
-        'rename_col': 'renames a pandas dataframe column',
-        'tail': 'displays the last 5 rows of the dataframe'
+        'Data Definition Commands': {
+            'read_csv': 'reads a csv file',
+        },
+        'Data Query Commands': {
+            'columns': 'display the list of columns in the dataframe',
+            'dir': 'list the directory contents',
+            'head': 'displays the first 5 rows of the dataframe',
+            'info': 'displays current dataframe information',
+            'tail': 'displays the last 5 rows of the dataframe',
+        },
+        'Data Manipulation Commands': {
+            'rename_col': 'renames a pandas dataframe column',
+        },
+        'Miscellaneous Commands' : {
+            'exit': 'exits the program',
+            'help': 'displays help message',
+        },
     }
 
-    for x, y in command_list.items():
-        print("{} : {}".format(x.rjust(12), y.ljust(5)))
+    for category in command_list:
+        print("* " + category)
+        print("-" * (len(category) + 2))
+        for x,y in command_list[category].items():
+            print(" * {} : {}".format(x.rjust(12), y.ljust(5)))
+        print("\n")
 
 
 def fn_head_tail(user_cmd):

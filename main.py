@@ -106,3 +106,22 @@ while True:
         print("\n")
         print("Exiting Prapper.")
         exit()
+
+# TODO: select columns - hide <column_name>
+# TODO: Sorting the df based on columns
+# TODO: filtering the df based on columns
+# TODO: Accessing based on iloc and loc
+# TODO: save the df as a seperate file
+# TODO: merge two or more dataframe
+# TODO: append to a dataframe
+# TODO: replace .nan values with other values
+# TODO: setting the index
+# TODO: deleting a dataframe from the memory
+# TODO: aggregating based on value
+# TODO: other methods of reading
+# TODO: replacing column values
+# TODO: replacing specific row / column value
+# TODO: pivot feature
+# TODO: logging feature
+# TODO: tabulate module
+# TODO: colorama
