@@ -152,15 +152,16 @@ def fn_hide_columns(df):
 def fn_sort_values(df):
     """
     Sort values in ascending order
-    :param df:
-    :return:
+    :param df: dataframe
+    :return: modified df if valid columns; else return the original df
     """
     sort_column = input("Enter the column to sort: ")
     sort_column = sort_column.strip()
-    
+
     if sort_column in df_columns_list:
         df = df.sort_values(sort_column)
         return df
     else:
         print('Not a valid column')
-        return None
+        print("\n")
+        return df

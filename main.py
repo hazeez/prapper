@@ -116,8 +116,7 @@ while True:
 
         if user_cmd == "sort_values":
             df = bf.fn_sort_values(df)
-            if not None:
-                print(df.head())
+            print(df.head())
 
     except KeyboardInterrupt:
         print("\n")
