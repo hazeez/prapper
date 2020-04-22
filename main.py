@@ -125,3 +125,4 @@ while True:
 # TODO: logging feature
 # TODO: tabulate module
 # TODO: colorama
+# TODO: if the dataframe is empty, remove the file name from the prompt

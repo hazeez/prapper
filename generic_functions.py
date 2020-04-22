@@ -33,12 +33,14 @@ def fn_splash_screen():
 
     title = cfg.title
     ver = cfg.ver
+    length_of_title = cfg.length_of_title
 
     clear_screen()
 
-    print("-" * 30)
+    print("\n")
     print(title, "v" + str(ver))
-    print("-" * 30)
+    print("-" * length_of_title)
+
     if cfg.help_msg:
         print(cfg.help_msg)
 
