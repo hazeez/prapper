@@ -131,7 +131,7 @@ def fn_hide_columns(df, columns_to_hide):
     global hidden_columns_list
 
     if len(hidden_columns_list) > 0:
-        print(hidden_columns_list)
+        print("Hidden columns: ", hidden_columns_list)
 
     df_columns_list = list(df.columns)
     # columns_to_hide = input("Enter the column to hide: ")

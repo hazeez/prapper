@@ -52,7 +52,7 @@ def fn_get_input(filename_object):
     print("\n")
     # global filename_object
 
-    if filename_object == "":
+    if filename_object == "" or filename_object is None:
         cmd = input("prapper>> ")
     else:
         cmd = input("prapper '" + filename_object + "'>> ")

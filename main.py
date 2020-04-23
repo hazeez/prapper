@@ -94,6 +94,8 @@ while True:
             if df is not None:
                 print(df.head())
                 filename_object = file_name
+            else:
+                filename_object = None
 
         if cmd_value == "info":
             # execute the fn_dataframe function
@@ -128,10 +130,13 @@ while True:
             print(os.system("dir"))
 
         if cmd_value == "head" or cmd_value == "tail":
-            if cmd_arg1:
-                bf.fn_head_tail(df, cmd_value, cmd_arg1)
-            else:
-                bf.fn_head_tail(df, cmd_value, 5)
+            try:
+                if cmd_arg1:
+                    bf.fn_head_tail(df, cmd_value, cmd_arg1)
+                else:
+                    bf.fn_head_tail(df, cmd_value, 5)
+            except NameError:
+                print("Argument not passed. Syntax: {} <number of rows>".format(cmd_value))
 
         if cmd_value == "columns" or cmd_value == "cols":
             # print the tail
@@ -151,11 +156,16 @@ while True:
             # syntax: hide_col <col_name>
 
             try:
-                display_column_list = bf.fn_hide_columns(df, cmd_arg1)
-                df = df[display_column_list]
-                print(df.head())
+                if df is not None:
+                    display_column_list = bf.fn_hide_columns(df, cmd_arg1)
+                    df = df[display_column_list]
+                    print(df.head())
+                else:
+                    gfun.show_dataframe_not_present_error()
             except KeyError as ke:
-                print("Try again " + str(ke))
+                print("Try again.")
+            except NameError:
+                print("Argument not passed. Syntax: hide_col <col_name>")
 
         if cmd_value == "sort_values":
             # syntax: sort_values <col_name> <order>
@@ -170,6 +180,8 @@ while True:
                 print(df.head())
             except KeyError as ke:
                 print("Column {} does not exist in the dataframe".format(ke))
+            except NameError:
+                print("Argument not passed. Syntax: sort_values <col_name> <order: asc/desc>")
 
     except KeyboardInterrupt:
         print("\n")
