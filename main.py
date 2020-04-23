@@ -14,6 +14,26 @@ filename_object = ""
 data = {'a':1, 'b':2}
 df = pd.DataFrame(data, index=[0,1])
 
+def parse_command(usercmd):
+    usercmd = usercmd.strip()
+    cmd_args: list
+    *cmd_args,  = usercmd.split(" ")
+
+    if len(cmd_args) == 1:
+        cmd = cmd_args[0]
+        return [cmd]
+
+    if len(cmd_args) == 2:
+        cmd = cmd_args[0]
+        param1 = cmd_args[1]
+        return [cmd, param1]
+
+    if len(cmd_args) == 3:
+        cmd = cmd_args[0]
+        param1 = cmd_args[1]
+        param2 = cmd_args[2]
+        return [cmd, param1, param2]
+
 # print the splash screen at the start of the program
 # This is the entry point of the program
 gfun.fn_splash_screen()
@@ -22,19 +42,34 @@ while True:
 
     # global variables
 
-
     # local variables
+    cmd_value = ""
 
     try:
 
         user_cmd = gfun.fn_get_input(filename_object)
 
-        if user_cmd not in cfg.command_list:
-            print("Command '{}' not available".format(user_cmd))
+        cmd_plus_args: list
+        *cmd_plus_args, = parse_command(user_cmd)
+
+        if len(cmd_plus_args) == 1:
+            cmd_value = cmd_plus_args[0]
+
+        if len(cmd_plus_args) == 2:
+            cmd_value = cmd_plus_args[0]
+            cmd_arg1 = cmd_plus_args[1]
+
+        if len(cmd_plus_args) == 3:
+            cmd_value = cmd_plus_args[0]
+            cmd_arg1 = cmd_plus_args[1]
+            cmd_arg2 = cmd_plus_args[2]
+
+        if cmd_value not in cfg.command_list:
+            print("Command '{}' not available".format(cmd_value))
             bf.fn_help()
             continue
 
-        if user_cmd == "read_csv":
+        if cmd_value == "read_csv":
             # execute the read_csv function
             file_name = input("Enter the file name: ")
             df = bf.fn_read_csv(file_name, pd)
@@ -42,7 +77,7 @@ while True:
                 print(df.head())
                 filename_object = file_name
 
-        if user_cmd == "info":
+        if cmd_value == "info":
             # execute the fn_dataframe function
             try:
                 bf.fn_dataframe_info(df)
@@ -51,7 +86,7 @@ while True:
             except AttributeError:
                 gfun.show_dataframe_not_present_error()
 
-        if user_cmd == "rename_col":
+        if cmd_value == "rename_col":
             # execute the rename column function
             try:
                 bf.fn_rename_col(df)
@@ -62,50 +97,38 @@ while True:
             except AttributeError:
                 gfun.show_dataframe_not_present_error()
 
-        if user_cmd == "help":
+        if cmd_value == "help":
             # execute the help function
             bf.fn_help()
 
-        if user_cmd == "exit" or user_cmd == "exit()":
+        if cmd_value == "exit" or cmd_value == "exit()":
             # exit the program
             exit()
 
-        if user_cmd == "dir":
+        if cmd_value == "dir":
             # list the directory contents
             print(os.system("dir"))
 
-        if user_cmd == "head" or user_cmd == "tail":
-            # print the head
-            try:
-                cmd, rows = bf.fn_head_tail(user_cmd)
-                if not None:
-                    if cmd == "head":
-                        print(df.head(rows))
-                    if cmd == "tail":
-                        print(df.tail(rows))
-            except NameError:
-                gfun.show_dataframe_not_present_error()
-            except AttributeError:
-                gfun.show_dataframe_not_present_error()
-            except ValueError as ve:
-                print("Try again.")
-            except TypeError as te:
-                print("Try again.")
+        if cmd_value == "head" or cmd_value == "tail":
+            if cmd_arg1:
+                bf.fn_head_tail(df, cmd_value, cmd_arg1)
+            else:
+                bf.fn_head_tail(df, cmd_value, 5)
 
-        if user_cmd == "columns" or user_cmd == "cols":
+        if cmd_value == "columns" or cmd_value == "cols":
             # print the tail
             try:
-                print(df.columns)
+                print(list(df.columns))
             except NameError:
                 gfun.show_dataframe_not_present_error()
             except AttributeError:
                 gfun.show_dataframe_not_present_error()
 
-        if user_cmd == "cls" or user_cmd == "clear":
+        if cmd_value == "cls" or cmd_value == "clear":
             # clear the screen
             gfun.clear_screen()
 
-        if user_cmd == "hide_col":
+        if cmd_value == "hide_col":
             # hide the columns and display the dataframe
             try:
                 display_column_list = bf.fn_hide_columns(df)
@@ -114,8 +137,15 @@ while True:
             except KeyError as ke:
                 print("Try again " + str(ke))
 
-        if user_cmd == "sort_values":
-            df = bf.fn_sort_values(df)
+        if cmd_value == "sort_values":
+            # syntax: sort_values <col_name> <order>
+            # syntax: sort_values <cmd_arg1> <cmd_arg2>
+            if cmd_arg1 and cmd_arg2:
+                df = bf.fn_sort_values(df, cmd_arg1, cmd_arg2)
+
+            if cmd_arg1 and not cmd_arg2:
+                df = bf.fn_sort_values(df, cmd_arg1, 'asc')
+
             print(df.head())
 
     except KeyboardInterrupt:
@@ -123,7 +153,7 @@ while True:
         print("Exiting Prapper.")
         exit()
 
-# TODO: Sorting the df based on columns
+
 # TODO: filtering the df based on columns
 # TODO: Accessing based on iloc and loc
 # TODO: save the df as a seperate file

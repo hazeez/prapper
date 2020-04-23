@@ -56,7 +56,7 @@ def fn_get_input(filename_object):
         cmd = input("prapper>> ")
     else:
         cmd = input("prapper '" + filename_object + "'>> ")
-    return cmd.strip().lower()
+    return cmd.strip()
 
 
 def show_dataframe_not_present_error():

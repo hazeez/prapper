@@ -100,21 +100,25 @@ def fn_help():
         print("\n")
 
 
-def fn_head_tail(user_cmd):
+def fn_head_tail(df, user_cmd, row_arg):
     """
     Display the rows of the dataframe; head - top rows; tail - bottom rows
+    :param df: dataframe
     :param user_cmd: head or tail
+    :param row_arg: number of rows to display
     :return: head | tail, no of rows to display
     """
-    if user_cmd == "head" or user_cmd == "tail":
-        rows = input("Enter the number of rows to display: ")
-        try:
-            rows = int(rows)
-            return user_cmd, rows
-        except:
-            print("Enter a valid 'number' of rows.")
-            return None
+    try:
+        rows = int(row_arg)
+    except:
+        print("Enter a valid 'number' of rows. E.g. {} 10".format(user_cmd))
+        return None
 
+    if user_cmd == "head":
+        print(df.head(rows))
+
+    if user_cmd == "tail":
+        print(df.tail(rows))
 
 def fn_hide_columns(df):
     """
@@ -149,17 +153,25 @@ def fn_hide_columns(df):
             print("columns '{}' does not exist.".format(columns_to_hide))
             print(df.columns)
 
-def fn_sort_values(df):
+def fn_sort_values(df, col_name, order):
     """
     Sort values in ascending order
     :param df: dataframe
+    :param col_name: column to sort
+    :param order: ascending or descending
     :return: modified df if valid columns; else return the original df
     """
-    sort_column = input("Enter the column to sort: ")
-    sort_column = sort_column.strip()
 
-    if sort_column in df_columns_list:
-        df = df.sort_values(sort_column)
+    order_list = ['asc','desc']
+    order_dict = {
+        'asc' : True,
+        'desc': False
+    }
+
+    if col_name in df_columns_list:
+        if order in order_list:
+            df = df.sort_values(col_name, ascending=order_dict[order])
+            print("Sorted column '{}' in order {}".format(col_name,order))
         return df
     else:
         print('Not a valid column')
