@@ -80,11 +80,12 @@ def fn_help():
             'head': 'displays the first 5 rows of the dataframe',
             'info': 'displays current dataframe information',
             'tail': 'displays the last 5 rows of the dataframe',
+            'query': 'filters rows based on criteria',
         },
         'Data Manipulation Commands': {
             'hide_col': 'hide a selected column in the dataframe',
             'rename_col': 'renames a pandas dataframe column',
-            'sort_values': 'sort values based on column'
+            'sort_values': 'sort values based on column',
         },
         'Miscellaneous Commands': {
             'exit': 'exits the program',
@@ -179,3 +180,14 @@ def fn_sort_values(df, col_name, order):
         print('Not a valid column')
         print("\n")
         return df
+
+
+def fn_query(df, cmd_arg):
+    criteria = cmd_arg.strip()
+    try:
+        df1 = df.query(criteria)
+        return df1
+    except ValueError as ve:
+        print("Invalid Syntax: " + str(ve))
+    except:
+        print("Error occured. Try again.")

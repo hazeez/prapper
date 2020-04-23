@@ -14,15 +14,20 @@ import config as cfg
 filename_object = ""
 data = {'a': 1, 'b': 2}
 df = pd.DataFrame(data, index=[0, 1])
+df1 = df.copy()
 
 
 def parse_command(usercmd):
+
+    global df
+    global df1
+
     args_list = []
     usercmd = usercmd.strip()
 
     # check if any arguments have the single quote or double quote
 
-    regex = re.compile("[\'\"]")
+    regex = re.compile("[\"]")
 
     if usercmd.find("\'") != -1 or usercmd.find('\"') != -1:
         arguments = regex.split(usercmd)
@@ -182,6 +187,28 @@ while True:
                 print("Column {} does not exist in the dataframe".format(ke))
             except NameError:
                 print("Argument not passed. Syntax: sort_values <col_name> <order: asc/desc>")
+
+        if cmd_value == "query":
+            # syntax: query <criteria>
+            # e.g. query "Director == 'David Ayer'"
+            # e.g. query "Director == 'David Ayer' & Title == 'Fury'"
+            print(cmd_value)
+            print(cmd_arg1)
+            df1 = bf.fn_query(df, cmd_arg1)
+            print("df1")
+            print(df1)
+
+        if cmd_value == "df":
+            print(df.head())
+
+        if cmd_value == "df1":
+            print(df1)
+
+        if cmd_value == "filter_rows":
+            pass
+
+        if cmd_value == "filter_cols":
+            pass
 
     except KeyboardInterrupt:
         print("\n")

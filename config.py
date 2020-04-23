@@ -23,4 +23,7 @@ command_list = [
     'clear',
     'hide_col',
     'sort_values',
+    'query',
+    'df',
+    'df1'
 ]
