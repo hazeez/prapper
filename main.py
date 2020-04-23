@@ -12,8 +12,8 @@ import config as cfg
 
 # variable declarations
 filename_object = ""
-data = {'a':1, 'b':2}
-df = pd.DataFrame(data, index=[0,1])
+data = {'a': 1, 'b': 2}
+df = pd.DataFrame(data, index=[0, 1])
 
 
 def parse_command(usercmd):
@@ -50,6 +50,7 @@ def parse_command(usercmd):
         param1 = cmd_args[1]
         param2 = cmd_args[2]
         return [cmd, param1, param2]
+
 
 # print the splash screen at the start of the program
 # This is the entry point of the program
@@ -108,7 +109,7 @@ while True:
             try:
                 bf.fn_rename_col(df)
                 print("\n")
-                print("Column renamed: " + "\n" + str(df.columns))
+                print("Column renamed: " + "\n" + str(list(df.columns)))
             except NameError:
                 gfun.show_dataframe_not_present_error()
             except AttributeError:
@@ -148,11 +149,9 @@ while True:
         if cmd_value == "hide_col":
             # hide the columns and display the dataframe
             # syntax: hide_col <col_name>
-            print(cmd_value)
-            print(cmd_arg1)
-            
+
             try:
-                display_column_list = bf.fn_hide_columns(df)
+                display_column_list = bf.fn_hide_columns(df, cmd_arg1)
                 df = df[display_column_list]
                 print(df.head())
             except KeyError as ke:
@@ -176,7 +175,6 @@ while True:
         print("\n")
         print("Exiting Prapper.")
         exit()
-
 
 # TODO: filtering the df based on columns
 # TODO: Accessing based on iloc and loc

@@ -120,7 +120,8 @@ def fn_head_tail(df, user_cmd, row_arg):
     if user_cmd == "tail":
         print(df.tail(rows))
 
-def fn_hide_columns(df):
+
+def fn_hide_columns(df, columns_to_hide):
     """
     Hides an user inputted column
     :param df: dataframe
@@ -133,7 +134,7 @@ def fn_hide_columns(df):
         print(hidden_columns_list)
 
     df_columns_list = list(df.columns)
-    columns_to_hide = input("Enter the column to hide: ")
+    # columns_to_hide = input("Enter the column to hide: ")
 
     if type(columns_to_hide) == str:
         columns_to_hide = columns_to_hide.strip()
@@ -150,8 +151,9 @@ def fn_hide_columns(df):
             print("\n")
             return df_columns_list
         else:
-            print("columns '{}' does not exist.".format(columns_to_hide))
-            print(df.columns)
+            print("columns '{}' does not exist in the dataframe.".format(columns_to_hide))
+            print("Available columns: " + str(list(df.columns)))
+
 
 def fn_sort_values(df, col_name, order):
     """
@@ -162,16 +164,16 @@ def fn_sort_values(df, col_name, order):
     :return: modified df if valid columns; else return the original df
     """
 
-    order_list = ['asc','desc']
+    order_list = ['asc', 'desc']
     order_dict = {
-        'asc' : True,
+        'asc': True,
         'desc': False
     }
 
     if col_name in df_columns_list:
         if order in order_list:
             df = df.sort_values(col_name, ascending=order_dict[order])
-            print("Sorted column '{}' in order {}".format(col_name,order))
+            print("Sorted column '{}' in order {}".format(col_name, order))
         return df
     else:
         print('Not a valid column')
