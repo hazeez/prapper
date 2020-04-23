@@ -204,12 +204,6 @@ while True:
         if cmd_value == "df1":
             print(df1)
 
-        if cmd_value == "filter_rows":
-            pass
-
-        if cmd_value == "filter_cols":
-            pass
-
     except KeyboardInterrupt:
         print("\n")
         print("Exiting Prapper.")
