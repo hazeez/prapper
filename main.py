@@ -1,5 +1,6 @@
 # inbuilt modules
 import os
+import re
 
 # third party modules
 import pandas as pd
@@ -14,10 +15,26 @@ filename_object = ""
 data = {'a':1, 'b':2}
 df = pd.DataFrame(data, index=[0,1])
 
+
 def parse_command(usercmd):
+    args_list = []
     usercmd = usercmd.strip()
+
+    # check if any arguments have the single quote or double quote
+
+    regex = re.compile("[\'\"]")
+
+    if usercmd.find("\'") != -1 or usercmd.find('\"') != -1:
+        arguments = regex.split(usercmd)
+
+        for item in arguments:
+            if item != '':
+                args_list.append(item.strip())
+    else:
+        args_list = usercmd.split(" ")
+
     cmd_args: list
-    *cmd_args,  = usercmd.split(" ")
+    *cmd_args, = args_list
 
     if len(cmd_args) == 1:
         cmd = cmd_args[0]
@@ -130,6 +147,10 @@ while True:
 
         if cmd_value == "hide_col":
             # hide the columns and display the dataframe
+            # syntax: hide_col <col_name>
+            print(cmd_value)
+            print(cmd_arg1)
+            
             try:
                 display_column_list = bf.fn_hide_columns(df)
                 df = df[display_column_list]
@@ -140,13 +161,16 @@ while True:
         if cmd_value == "sort_values":
             # syntax: sort_values <col_name> <order>
             # syntax: sort_values <cmd_arg1> <cmd_arg2>
-            if cmd_arg1 and cmd_arg2:
-                df = bf.fn_sort_values(df, cmd_arg1, cmd_arg2)
+            try:
+                if cmd_arg1 and cmd_arg2:
+                    df = bf.fn_sort_values(df, cmd_arg1, cmd_arg2)
 
-            if cmd_arg1 and not cmd_arg2:
-                df = bf.fn_sort_values(df, cmd_arg1, 'asc')
+                if cmd_arg1 and not cmd_arg2:
+                    df = bf.fn_sort_values(df, cmd_arg1, 'asc')
 
-            print(df.head())
+                print(df.head())
+            except KeyError as ke:
+                print("Column {} does not exist in the dataframe".format(ke))
 
     except KeyboardInterrupt:
         print("\n")
