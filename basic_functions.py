@@ -51,10 +51,9 @@ def fn_rename_col(df):
         old_col_name = old_col_name.strip()
 
         if old_col_name not in df.columns:
-            print("Column name {} not present in file".format(old_col_name))
+            print("Column name '{}' not present in dataframe.".format(old_col_name))
             print("\n")
-            print("list of columns available are ... ")
-            print(df.columns)
+            print("Available columns: " + str(list(df.columns)))
             print("\n")
             fn_rename_col(df)
         else:
@@ -85,6 +84,7 @@ def fn_help():
         'Data Manipulation Commands': {
             'hide_col': 'hide a selected column in the dataframe',
             'rename_col': 'renames a pandas dataframe column',
+            'sort_values': 'sort values based on column'
         },
         'Miscellaneous Commands': {
             'exit': 'exits the program',
@@ -151,7 +151,7 @@ def fn_hide_columns(df, columns_to_hide):
             print("\n")
             return df_columns_list
         else:
-            print("columns '{}' does not exist in the dataframe.".format(columns_to_hide))
+            print("Column '{}' does not exist in the dataframe.".format(columns_to_hide))
             print("Available columns: " + str(list(df.columns)))
 
 
