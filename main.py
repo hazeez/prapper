@@ -37,6 +37,9 @@ def parse_command(usercmd):
     else:
         args_list = usercmd.split(" ")
 
+    while '' in args_list:
+        args_list.remove('')
+
     cmd_args: list
     *cmd_args, = args_list
 
@@ -71,8 +74,12 @@ while True:
 
         user_cmd = gfun.fn_get_input(filename_object)
 
-        cmd_plus_args: list
-        *cmd_plus_args, = parse_command(user_cmd)
+        try:
+            cmd_plus_args: list
+            *cmd_plus_args, = parse_command(user_cmd)
+        except TypeError as te:
+            print("Cannot parse input command properly")
+            print(str(te))
 
         if len(cmd_plus_args) == 1:
             cmd_value = cmd_plus_args[0]
@@ -207,7 +214,6 @@ while True:
             try:
                 list_of_columns = list(cmd_arg1.split(","))
                 list_of_columns = [x.strip() for x in list_of_columns]
-                print(list_of_columns)
                 df = df[list_of_columns]
                 print("\n")
                 print(df.head())
@@ -220,8 +226,23 @@ while True:
         if cmd_value == "iloc":
             pass
 
-        if cmd_value == "set_index":
+        if cmd_value == "loc":
 
+            try:
+                if len(cmd_plus_args) == 3:
+                    cmd_arg1 = [x.strip() for x in cmd_arg1.split(",")]
+                    cmd_arg2 = [x.strip() for x in cmd_arg2.split(",")]
+                    df2 = df.loc[cmd_arg1, cmd_arg2]
+                    print(df2)
+
+                if len(cmd_plus_args) == 2:
+                    cmd_arg1 = [x.strip() for x in cmd_arg1.split(",")]
+                    df2 = df.loc[cmd_arg1]
+                    print(df2)
+            except KeyError as ke:
+                print("Key not found in the dataframe. \n" + str(ke))
+
+        if cmd_value == "set_index":
             try:
                 df = df.set_index(cmd_arg1)
                 print(df.head())
@@ -237,13 +258,11 @@ while True:
         print("Exiting Prapper.")
         exit()
 
-# TODO: filtering the df based on columns
-# TODO: Accessing based on iloc and loc
+# TODO: Accessing based on iloc
 # TODO: save the df as a seperate file
 # TODO: merge two or more dataframe
 # TODO: append to a dataframe
 # TODO: replace .nan values with other values
-# TODO: setting the index
 # TODO: deleting a dataframe from the memory
 # TODO: aggregating based on value
 # TODO: other methods of reading
@@ -253,4 +272,3 @@ while True:
 # TODO: logging feature
 # TODO: tabulate module
 # TODO: colorama
-# TODO: if the dataframe is empty, remove the file name from the prompt

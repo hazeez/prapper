@@ -4,7 +4,7 @@ All project configuration goes into this file
 
 title = "Prapper - (P)andas W(rapper)"
 help_msg = "Press Ctrl + C to quit"
-ver = "0.2.0.1"
+ver = "0.2.0.2"
 
 length_of_title = len(title) + len(ver) + 2
 
