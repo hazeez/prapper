@@ -18,7 +18,6 @@ df1 = df.copy()
 
 
 def parse_command(usercmd):
-
     global df
     global df1
 
@@ -192,8 +191,8 @@ while True:
             # syntax: query <criteria>
             # e.g. query "Director == 'David Ayer'"
             # e.g. query "Director == 'David Ayer' & Title == 'Fury'"
-            print(cmd_value)
-            print(cmd_arg1)
+            # e.g. query "Title.str.contains('Star \w+')"
+
             df1 = bf.fn_query(df, cmd_arg1)
             print("df1")
             print(df1)
@@ -203,6 +202,35 @@ while True:
 
         if cmd_value == "df1":
             print(df1)
+
+        if cmd_value == "select_col":
+            try:
+                list_of_columns = list(cmd_arg1.split(","))
+                list_of_columns = [x.strip() for x in list_of_columns]
+                print(list_of_columns)
+                df = df[list_of_columns]
+                print("\n")
+                print(df.head())
+            except NameError:
+                print("Dataframe not found. Run command 'read_csv' to read data into a dataframe.")
+                print('E.g. select_col "Rank, Title, Director, Year, Rating, Runtime, Revenue"')
+            except KeyError:
+                print("Column not found in the dataframe. Run command 'columns' to see the list of columns available.")
+
+        if cmd_value == "iloc":
+            pass
+
+        if cmd_value == "set_index":
+
+            try:
+                df = df.set_index(cmd_arg1)
+                print(df.head())
+            except NameError as ne:
+                print("Column '{}' is not present in the dataframe".format(cmd_arg1))
+                print("Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available.")
+            except KeyError as ke:
+                print("Column '{}' is not present in the dataframe".format(cmd_arg1))
+                print("Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available.")
 
     except KeyboardInterrupt:
         print("\n")

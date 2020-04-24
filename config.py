@@ -25,5 +25,8 @@ command_list = [
     'sort_values',
     'query',
     'df',
-    'df1'
+    'df1',
+    'loc',
+    'set_index',
+    'select_col'
 ]

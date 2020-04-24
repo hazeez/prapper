@@ -79,12 +79,14 @@ def fn_help():
             'dir': 'list the directory contents',
             'head': 'displays the first 5 rows of the dataframe',
             'info': 'displays current dataframe information',
+            'select_col': 'select columns from the dataframe',
             'tail': 'displays the last 5 rows of the dataframe',
             'query': 'filters rows based on criteria',
         },
         'Data Manipulation Commands': {
             'hide_col': 'hide a selected column in the dataframe',
             'rename_col': 'renames a pandas dataframe column',
+            'set_index': 'set the index of the dataframe',
             'sort_values': 'sort values based on column',
         },
         'Miscellaneous Commands': {
