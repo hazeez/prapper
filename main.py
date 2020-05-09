@@ -7,12 +7,12 @@ import pandas as pd
 
 # custom modules
 import basic_functions as bf
-import generic_functions as gfun
 import config as cfg
+import generic_functions as gfun
 
 # variable declarations
 filename_object = ""
-data = {'a': 1, 'b': 2}
+data = {"a": 1, "b": 2}
 df = pd.DataFrame(data, index=[0, 1])
 df1 = df.copy()
 
@@ -26,22 +26,22 @@ def parse_command(usercmd):
 
     # check if any arguments have the single quote or double quote
 
-    regex = re.compile("[\"]")
+    regex = re.compile('["]')
 
-    if usercmd.find("\'") != -1 or usercmd.find('\"') != -1:
+    if usercmd.find("'") != -1 or usercmd.find('"') != -1:
         arguments = regex.split(usercmd)
 
         for item in arguments:
-            if item != '':
+            if item != "":
                 args_list.append(item.strip())
     else:
         args_list = usercmd.split(" ")
 
-    while '' in args_list:
-        args_list.remove('')
+    while "" in args_list:
+        args_list.remove("")
 
     cmd_args: list
-    *cmd_args, = args_list
+    (*cmd_args,) = args_list
 
     if len(cmd_args) == 1:
         cmd = cmd_args[0]
@@ -76,7 +76,7 @@ while True:
 
         try:
             cmd_plus_args: list
-            *cmd_plus_args, = parse_command(user_cmd)
+            (*cmd_plus_args,) = parse_command(user_cmd)
         except TypeError as te:
             print("Cannot parse input command properly")
             print(str(te))
@@ -147,7 +147,9 @@ while True:
                 else:
                     bf.fn_head_tail(df, cmd_value, 5)
             except NameError:
-                print("Argument not passed. Syntax: {} <number of rows>".format(cmd_value))
+                print(
+                    "Argument not passed. Syntax: {} <number of rows>".format(cmd_value)
+                )
 
         if cmd_value == "columns" or cmd_value == "cols":
             # print the tail
@@ -186,13 +188,15 @@ while True:
                     df = bf.fn_sort_values(df, cmd_arg1, cmd_arg2)
 
                 if cmd_arg1 and not cmd_arg2:
-                    df = bf.fn_sort_values(df, cmd_arg1, 'asc')
+                    df = bf.fn_sort_values(df, cmd_arg1, "asc")
 
                 print(df.head())
             except KeyError as ke:
                 print("Column {} does not exist in the dataframe".format(ke))
             except NameError:
-                print("Argument not passed. Syntax: sort_values <col_name> <order: asc/desc>")
+                print(
+                    "Argument not passed. Syntax: sort_values <col_name> <order: asc/desc>"
+                )
 
         if cmd_value == "query":
             # syntax: query <criteria>
@@ -218,10 +222,16 @@ while True:
                 print("\n")
                 print(df.head())
             except NameError:
-                print("Dataframe not found. Run command 'read_csv' to read data into a dataframe.")
-                print('E.g. select_col "Rank, Title, Director, Year, Rating, Runtime, Revenue"')
+                print(
+                    "Dataframe not found. Run command 'read_csv' to read data into a dataframe."
+                )
+                print(
+                    'E.g. select_col "Rank, Title, Director, Year, Rating, Runtime, Revenue"'
+                )
             except KeyError:
-                print("Column not found in the dataframe. Run command 'columns' to see the list of columns available.")
+                print(
+                    "Column not found in the dataframe. Run command 'columns' to see the list of columns available."
+                )
 
         if cmd_value == "iloc":
             pass
@@ -248,10 +258,14 @@ while True:
                 print(df.head())
             except NameError as ne:
                 print("Column '{}' is not present in the dataframe".format(cmd_arg1))
-                print("Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available.")
+                print(
+                    "Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available."
+                )
             except KeyError as ke:
                 print("Column '{}' is not present in the dataframe".format(cmd_arg1))
-                print("Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available.")
+                print(
+                    "Syntax: set_index <valid col name>. Run command 'columns' to see the list of columns available."
+                )
 
     except KeyboardInterrupt:
         print("\n")
@@ -259,12 +273,13 @@ while True:
         exit()
 
 # TODO: Accessing based on iloc
+# TODO: Accessing based on loc - integers e.g. loc [0] and loc[1:10]
 # TODO: save the df as a seperate file
 # TODO: merge two or more dataframe
 # TODO: append to a dataframe
 # TODO: replace .nan values with other values
 # TODO: deleting a dataframe from the memory
-# TODO: aggregating based on value
+# TODO: aggregating based on value - groupby - like mean / median etc
 # TODO: other methods of reading
 # TODO: replacing column values
 # TODO: replacing specific row / column value
